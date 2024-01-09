@@ -17,7 +17,7 @@ $ sum-input input.txt output.txt
 Here is what the overall flow should look like, with a simplified version of the input:
 
 ```bash
-$ ./generate-input-easy.py > input.txt
+$ ./generate-input.py > input.txt
 $ cat input.txt
 8 8 1 8
 2 3 4 6 4

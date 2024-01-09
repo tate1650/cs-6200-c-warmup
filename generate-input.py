@@ -2,9 +2,7 @@
 
 import random
 
-for i in range(10000):
-    nums = []
-    for j in range(random.randint(100, 200)):
-        nums.append(random.randrange(-10000, 10000))
-    print(" ".join([str(n) for n in nums]))
-
+for _ in range(10000):
+    num_count = random.randint(100, 200)
+    print(" ".join(str(random.randrange(-10000, 10000)) for _ in range(num_count)))
+    
