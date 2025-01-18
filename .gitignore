@@ -52,5 +52,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-# Program output
+# Program I/O files
 outputfile.txt
+input.txt
+output.txt
