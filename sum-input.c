@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// TOOD: Check tests-to-write.todo for test cases I should check for in munit
+// TODO: Check tests-to-write.todo for test cases I should check for in munit
 
 int main(int argc, char *argv[])
 {
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
   char buffer[buffer_size];
   memset(buffer, 0, buffer_size); // So we can null-terminate and read buffer as a string
   int sum = 0;
-  while (fgets(buffer, (buffer_size - 1), input_file_ptr) != NULL) {
+  while (fgets(buffer, buffer_size, input_file_ptr) != NULL) {
     char *endptr = NULL;
     char *startptr = buffer;
     
@@ -41,14 +41,14 @@ int main(int argc, char *argv[])
       // Assuming integer list is properly formatted
       int current_int = (int) strtol(startptr, &endptr, 10);
       
-      if (*endptr == '\0') break; // End of buffer
+      if (*endptr == '\0' || *endptr == '-') break; // End of buffer; could have a lone '-' from a negative int
       
       sum += current_int;
 
-      if (*endptr == '\n') { // Sum complete
-        // TODO: Write sum to output file
-        printf("Sum of line: %d\n", sum);
+      if (*endptr == '\n') { // Sum complete (and end of data in buffer)
+        fprintf(output_file_ptr, "%d\n", sum);
         sum = 0;
+        break;
       } else if (*endptr != ' ') { // Shouldn't happen
         printf("Error: strtol endptr pointing to non-null and non-whitespace character: '%c'\n", *endptr);
         exit(1);
@@ -57,11 +57,16 @@ int main(int argc, char *argv[])
       startptr = endptr + 1; // Skip the current whitespace character to start next int
     }
 
-    // If last character in buffer is a digit (instead of whitespace) we CANNOT add it!
+    // If last character in buffer is a digit/- (instead of whitespace) we CANNOT add it!
     // We don't know if we're at the end of the int. Hence, we need to reset the file pointer to the
     // start of the current int.
     size_t offset = 0;
-    for (char *last_buffer_char = (endptr - 1); isdigit(*last_buffer_char); last_buffer_char--) offset++;
+    size_t buffer_data_len = strlen(buffer);
+    for (
+      char *last_buffer_char = &buffer[buffer_data_len-1]; // Because buffer[buffer_data_len] is the null terminator
+      isdigit(*last_buffer_char) || *last_buffer_char == '-';
+      last_buffer_char--
+    ) offset++;
 
     if (fseek(input_file_ptr, (-1 * offset), SEEK_CUR) == -1) {
       printf("Error while executing fseek (code: %d)\n", errno);
