@@ -1,3 +1,5 @@
+CC = gcc -g
+
 sum-input: sum-input.c
 	$(CC) $^ -o $@
 
