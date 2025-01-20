@@ -56,3 +56,7 @@ dkms.conf
 outputfile.txt
 input.txt
 output.txt
+
+# Testing files
+munit
+test-suite
