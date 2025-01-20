@@ -15,6 +15,19 @@ MunitResult test_incorrect_arg_count(const MunitParameter params[], void* user_d
   return MUNIT_OK;
 }
 
+/* 
+Other tests to write:
+- Invalid input file path
+- Invalid output file path
+- Absolute file paths work
+- Relative file paths work
+- Ensure correct output for generic "common" case or two (make sure negative numbers are included)
+- Outputfile isn't created if inputfile doesn't exist
+- Small input file
+- Large input file
+- Files with large ints in them
+*/
+
 // SUITES
 
 MunitTest tests[] = {
